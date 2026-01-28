@@ -32,26 +32,61 @@ Tạo file `.env` từ template:
 cp .env.example .env
 ```
 
+Hoặc sử dụng file `.env.production` có sẵn cho production.
+
 Các biến môi trường:
 
 | Biến | Mô tả | Mặc định |
 |------|-------|----------|
+| `NODE_ENV` | Môi trường (development/production) | `development` |
+| `PORT` | Port cho socket server | `3001` |
 | `WEB_ORIGIN` | URL của web client (CORS) | `http://localhost:3000` |
-| `SOCKET_PORT` | Port cho socket server | `3001` |
-| `CONFIG_PATH` | Đường dẫn thư mục config (cho Docker) | - |
+
+**Development (`.env`):**
+```env
+NODE_ENV=development
+PORT=3001
+WEB_ORIGIN=http://localhost:3000
+```
+
+**Production (`.env.production`):**
+```env
+NODE_ENV=production
+PORT=3001
+WEB_ORIGIN=https://cahoot.nhut95.me
+```
 
 ### 3. Chạy ứng dụng
 
+**Development:**
 ```bash
-# Development mode (với hot-reload)
 npm run dev
-
-# Production mode
-npm run build
-npm start
 ```
 
-Socket server sẽ chạy tại: `ws://localhost:3001`
+**Production (với .env.production):**
+```bash
+# Install dependencies
+npm install
+
+# Build
+npm run build
+
+# Start với .env.production
+npm run start:prod
+```
+
+**Production (với PM2):**
+```bash
+# Start với .env.production
+pm2 start dist/index.cjs --name cahoot-socket --node-args="-r dotenv/config" --update-env -- dotenv_config_path=.env.production
+
+# Hoặc dùng ecosystem file (xem phần Deploy)
+pm2 start ecosystem.config.js
+```
+
+Socket server sẽ chạy tại:
+- Development: `ws://localhost:3001`
+- Production: `wss://cahoot-socket.nhut95.me` (qua reverse proxy)
 
 ## 📁 Cấu trúc Project
 
@@ -155,6 +190,128 @@ Ví dụ (`config/quizz/example.json`):
 | `npm start` | Chạy production build |
 | `npm run lint` | Kiểm tra linting |
 
-## 📝 License
+## � Deploy lên Production Server
+
+### 1. Chuẩn bị server
+
+```bash
+# Clone code
+git clone <repository-url>
+cd Cahoot-socket
+
+# Install dependencies
+npm install
+
+# File .env.production đã có sẵn với cấu hình production
+# Hoặc tạo/edit file .env.production nếu cần:
+# NODE_ENV=production
+# PORT=3001
+# WEB_ORIGIN=https://cahoot.nhut95.me
+
+# Build
+npm run build
+```
+
+### 2. Setup với PM2 (Khuyên dùng)
+
+**Cách 1: Dùng script có sẵn**
+```bash
+# Install PM2
+npm install -g pm2
+
+# Start với .env.production
+npm run start:prod
+
+# Hoặc dùng PM2 trực tiếp
+pm2 start npm --name cahoot-socket -- run start:prod
+
+# Enable auto-restart on server reboot
+pm2 startup
+pm2 save
+```
+
+**Cách 2: Dùng PM2 Ecosystem File** (khuyên dùng)
+
+Tạo file `ecosystem.config.js`:
+
+```javascript
+module.exports = {
+  apps: [{
+    name: 'cahoot-socket',
+    script: 'dist/index.cjs',
+    env_file: '.env.production',
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '1G',
+    error_file: 'logs/error.log',
+    out_file: 'logs/out.log',
+    log_date_format: 'YYYY-MM-DD HH:mm Z'
+  }]
+};
+```
+
+Chạy với ecosystem:
+```bash
+# Start
+pm2 start ecosystem.config.js
+
+# Enable auto-restart
+pm2 startup
+pm2 save
+```
+
+**PM2 Useful Commands:**
+```bash
+pm2 logs cahoot-socket      # Xem logs
+pm2 restart cahoot-socket   # Restart
+pm2 stop cahoot-socket      # Stop
+pm2 delete cahoot-socket    # Remove
+pm2 monit                   # Monitor real-time
+pm2 list                    # List all processes
+```
+
+### 3. Setup Nginx Reverse Proxy
+
+Tạo file `/etc/nginx/sites-available/cahoot-socket`:
+
+```nginx
+server {
+    listen 80;
+    server_name cahoot-socket.nhut95.me;
+
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 86400;
+    }
+}
+```
+
+Enable site:
+```bash
+sudo ln -s /etc/nginx/sites-available/cahoot-socket /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 4. Setup SSL với Let's Encrypt
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d cahoot-socket.nhut95.me
+```
+
+### Production URLs:
+- Socket Server: `wss://cahoot-socket.nhut95.me`
+- Web Frontend: `https://cahoot.nhut95.me`
+
+## �📝 License
 
 ISC

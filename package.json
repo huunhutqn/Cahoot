@@ -6,12 +6,14 @@
     "dev": "tsx watch src/index.ts",
     "build": "node esbuild.config.js",
     "start": "node dist/index.cjs",
+    "start:prod": "node -r dotenv/config dist/index.cjs dotenv_config_path=.env.production",
     "lint": "eslint"
   },
   "license": "ISC",
   "dependencies": {
     "@t3-oss/env-core": "^0.13.8",
     "dayjs": "^1.11.19",
+    "dotenv": "^16.6.1",
     "socket.io": "^4.8.1",
     "uuid": "^13.0.0",
     "zod": "^4.1.13"

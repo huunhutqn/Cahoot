@@ -15,7 +15,7 @@ const io: Server = new ServerIO({
 Config.init();
 
 const registry = Registry.getInstance();
-const port = 3001;
+const port = env.PORT;
 
 console.log(`Socket server running on port ${port}`);
 io.listen(Number(port));
