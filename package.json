@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "node esbuild.config.js",
-    "start": "node dist/index.cjs",
-    "prod": "npm run build && npm start"
+    "start": "node dist/index.js",
+    "start:prod": "node -r dotenv/config dist/index.js dotenv_config_path=.env.production",
+    "prod": "npm run build && npm run start:prod",
+    "lint": "eslint"
   },
   "license": "ISC",
   "dependencies": {

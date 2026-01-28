@@ -6,7 +6,8 @@ export const config = {
   bundle: true,
   minify: true,
   platform: "node",
-  outfile: "dist/index.cjs",
+  format: "esm",
+  outfile: "dist/index.js",
   sourcemap: true,
   define: {
     "process.env.NODE_ENV": '"production"',

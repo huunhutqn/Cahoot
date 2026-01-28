@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "cahoot-socket",
-      script: "dist/index.cjs",
+      script: "dist/index.js",
       env_file: ".env.production",
       instances: 1,
       autorestart: true,
