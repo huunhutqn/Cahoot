@@ -6,9 +6,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "node esbuild.config.js",
     "start": "node dist/index.cjs",
-    "start:prod": "node -r dotenv/config dist/index.cjs dotenv_config_path=.env.production",
-    "prod": "npm run build && npm run start:prod",
-    "lint": "eslint"
+    "prod": "npm run build && npm start"
   },
   "license": "ISC",
   "dependencies": {

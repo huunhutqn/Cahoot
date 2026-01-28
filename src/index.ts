@@ -15,7 +15,8 @@ const io: Server = new ServerIO({
 Config.init();
 
 const registry = Registry.getInstance();
-const port = env.PORT;
+// ưu tiên PORT từ môi trường (Hostinger sẽ set), nếu không có thì dùng PORT trong env của bạn
+const port = process.env.PORT ?? env.PORT ?? 3001;
 
 console.log(`Socket server running on port ${port}`);
 io.listen(Number(port));
