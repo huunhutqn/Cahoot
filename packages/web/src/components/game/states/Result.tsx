@@ -1,10 +1,10 @@
 "use client"
 
-import { CommonStatusDataMap } from "@rahoot/common/types/game/status"
-import CricleCheck from "@rahoot/web/components/icons/CricleCheck"
-import CricleXmark from "@rahoot/web/components/icons/CricleXmark"
-import { usePlayerStore } from "@rahoot/web/stores/player"
-import { SFX_RESULTS_SOUND } from "@rahoot/web/utils/constants"
+import { CommonStatusDataMap } from "@/common/types/game/status"
+import CricleCheck from "@cahoot/web/components/icons/CricleCheck"
+import CricleXmark from "@cahoot/web/components/icons/CricleXmark"
+import { usePlayerStore } from "@cahoot/web/stores/player"
+import { SFX_RESULTS_SOUND } from "@cahoot/web/utils/constants"
 import { useEffect } from "react"
 import useSound from "use-sound"
 

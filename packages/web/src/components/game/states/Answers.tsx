@@ -1,15 +1,15 @@
 "use client"
 
-import { CommonStatusDataMap } from "@rahoot/common/types/game/status"
-import AnswerButton from "@rahoot/web/components/AnswerButton"
-import { useEvent, useSocket } from "@rahoot/web/contexts/socketProvider"
-import { usePlayerStore } from "@rahoot/web/stores/player"
+import { CommonStatusDataMap } from "@/common/types/game/status"
+import AnswerButton from "@cahoot/web/components/AnswerButton"
+import { useEvent, useSocket } from "@cahoot/web/contexts/socketProvider"
+import { usePlayerStore } from "@cahoot/web/stores/player"
 import {
-    ANSWERS_COLORS,
-    ANSWERS_ICONS,
-    SFX_ANSWERS_MUSIC,
-    SFX_ANSWERS_SOUND,
-} from "@rahoot/web/utils/constants"
+  ANSWERS_COLORS,
+  ANSWERS_ICONS,
+  SFX_ANSWERS_MUSIC,
+  SFX_ANSWERS_SOUND,
+} from "@cahoot/web/utils/constants"
 import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"

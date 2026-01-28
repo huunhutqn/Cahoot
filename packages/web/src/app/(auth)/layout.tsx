@@ -1,8 +1,8 @@
 "use client"
 
-import logo from "@rahoot/web/assets/logo.svg"
-import Loader from "@rahoot/web/components/Loader"
-import { useSocket } from "@rahoot/web/contexts/socketProvider"
+import logo from "@cahoot/web/assets/logo.svg"
+import Loader from "@cahoot/web/components/Loader"
+import { useSocket } from "@cahoot/web/contexts/socketProvider"
 import Image from "next/image"
 import { PropsWithChildren, useEffect } from "react"
 

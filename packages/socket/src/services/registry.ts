@@ -1,4 +1,4 @@
-import Game from "@rahoot/socket/services/game";
+import Game from "@cahoot/socket/services/game";
 import dayjs from "dayjs";
 
 interface EmptyGame {

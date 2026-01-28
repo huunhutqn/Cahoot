@@ -1,19 +1,8 @@
 {
-  "name": "rahoot",
-  "workspaces": [
-    "packages/*"
-  ],
+  "name": "cahoot",
+  "private": true,
   "scripts": {
-    "dev": "dotenv -e .env -- npm run dev --workspaces --if-present",
-    "dev:web": "dotenv -e .env -- npm run dev --workspace=web",
-    "dev:socket": "dotenv -e .env -- npm run dev --workspace=socket",
-    "build": "npm run build --workspaces --if-present",
-    "start": "npm run start --workspaces --if-present",
-    "clean": "npm exec --workspaces -- rm -rf dist node_modules",
-    "lint": "npm run lint --workspaces --if-present"
-  },
-  "devDependencies": {
-    "dotenv-cli": "^11.0.0",
-    "typescript": "^5.9.3"
+    "dev": "echo 'Use: cd packages/web && npm run dev OR cd packages/socket && npm run dev'",
+    "install:all": "cd packages/web && npm install && cd ../socket && npm install"
   }
 }

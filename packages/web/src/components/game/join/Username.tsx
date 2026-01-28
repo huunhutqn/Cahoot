@@ -1,11 +1,11 @@
 "use client"
 
-import { STATUS } from "@rahoot/common/types/game/status"
-import Button from "@rahoot/web/components/Button"
-import Form from "@rahoot/web/components/Form"
-import Input from "@rahoot/web/components/Input"
-import { useEvent, useSocket } from "@rahoot/web/contexts/socketProvider"
-import { usePlayerStore } from "@rahoot/web/stores/player"
+import { STATUS } from "@/common/types/game/status"
+import Button from "@cahoot/web/components/Button"
+import Form from "@cahoot/web/components/Form"
+import Input from "@cahoot/web/components/Input"
+import { useEvent, useSocket } from "@cahoot/web/contexts/socketProvider"
+import { usePlayerStore } from "@cahoot/web/stores/player"
 
 import { useRouter } from "next/navigation"
 import { KeyboardEvent, useState } from "react"

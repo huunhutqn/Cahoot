@@ -1,9 +1,5 @@
-import { Server as ServerIO, Socket as SocketIO } from "socket.io"
 import { GameUpdateQuestion, Player, QuizzWithId } from "."
 import { Status, StatusDataMap } from "./status"
-
-export type Server = ServerIO<ClientToServerEvents, ServerToClientEvents>
-export type Socket = SocketIO<ClientToServerEvents, ServerToClientEvents>
 
 export type Message<K extends keyof StatusDataMap = keyof StatusDataMap> = {
   gameId?: string

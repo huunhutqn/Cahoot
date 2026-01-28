@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  rahoot:
-    image: huunhutqn/rahoot:latest
+  cahoot:
+    image: huunhutqn/cahoot:latest
     ports:
       - "3000:3000"
       - "3001:3001"

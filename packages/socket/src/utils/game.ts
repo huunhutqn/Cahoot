@@ -1,6 +1,6 @@
-import { Socket } from "@rahoot/common/types/game/socket";
-import Game from "@rahoot/socket/services/game";
-import Registry from "@rahoot/socket/services/registry";
+import { Socket } from "@/common/types/game/socket";
+import Game from "@cahoot/socket/services/game";
+import Registry from "@cahoot/socket/services/registry";
 
 export const withGame = (
   gameId: string | undefined,

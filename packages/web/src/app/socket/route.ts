@@ -1,4 +1,4 @@
-import env from "@rahoot/web/env"
+import env from "@cahoot/web/env"
 import { NextResponse } from "next/server"
 
 export function GET() {

@@ -1,5 +1,5 @@
-import esbuild from "esbuild"
-import path from "path"
+import esbuild from "esbuild";
+import path from "path";
 
 export const config = {
   entryPoints: ["src/index.ts"],
@@ -13,7 +13,9 @@ export const config = {
   },
   alias: {
     "@": path.resolve("./src"),
+    "@/common": path.resolve("./src/common"),
+    "@cahoot/socket": path.resolve("./src"),
   },
-}
+};
 
-esbuild.build(config)
+esbuild.build(config);

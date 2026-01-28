@@ -1,5 +1,5 @@
-import Toaster from "@rahoot/web/components/Toaster"
-import { SocketProvider } from "@rahoot/web/contexts/socketProvider"
+import Toaster from "@cahoot/web/components/Toaster"
+import { SocketProvider } from "@cahoot/web/contexts/socketProvider"
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import { PropsWithChildren } from "react"

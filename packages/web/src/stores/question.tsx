@@ -1,4 +1,4 @@
-import { GameUpdateQuestion } from "@rahoot/common/types/game"
+import { GameUpdateQuestion } from "@/common/types/game"
 import { create } from "zustand"
 
 type QuestionStore = {

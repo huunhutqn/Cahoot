@@ -1,13 +1,13 @@
 "use client"
 
-import { ManagerStatusDataMap } from "@rahoot/common/types/game/status"
-import useScreenSize from "@rahoot/web/hooks/useScreenSize"
+import { ManagerStatusDataMap } from "@/common/types/game/status"
+import useScreenSize from "@cahoot/web/hooks/useScreenSize"
 import {
     SFX_PODIUM_FIRST,
     SFX_PODIUM_SECOND,
     SFX_PODIUM_THREE,
     SFX_SNEAR_ROOL,
-} from "@rahoot/web/utils/constants"
+} from "@cahoot/web/utils/constants"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
 import ReactConfetti from "react-confetti"

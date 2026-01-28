@@ -1,6 +1,6 @@
 "use client"
 
-import { useSocket } from "@rahoot/web/contexts/socketProvider"
+import { useSocket } from "@cahoot/web/contexts/socketProvider"
 import { PropsWithChildren, useEffect } from "react"
 
 const GameLayout = ({ children }: PropsWithChildren) => {

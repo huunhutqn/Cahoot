@@ -1,4 +1,4 @@
-import { ManagerStatusDataMap } from "@rahoot/common/types/game/status"
+import { ManagerStatusDataMap } from "@/common/types/game/status"
 import { AnimatePresence, motion, useSpring, useTransform } from "motion/react"
 import { useEffect, useState } from "react"
 

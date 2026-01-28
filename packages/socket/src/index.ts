@@ -1,10 +1,10 @@
-import { Server } from "@rahoot/common/types/game/socket";
-import { inviteCodeValidator } from "@rahoot/common/validators/auth";
-import env from "@rahoot/socket/env";
-import Config from "@rahoot/socket/services/config";
-import Game from "@rahoot/socket/services/game";
-import Registry from "@rahoot/socket/services/registry";
-import { withGame } from "@rahoot/socket/utils/game";
+import { Server } from "@/common/types/game/socket";
+import { inviteCodeValidator } from "@/common/validators/auth";
+import env from "@cahoot/socket/env";
+import Config from "@cahoot/socket/services/config";
+import Game from "@cahoot/socket/services/game";
+import Registry from "@cahoot/socket/services/registry";
+import { withGame } from "@cahoot/socket/utils/game";
 import { Server as ServerIO } from "socket.io";
 
 const io: Server = new ServerIO({

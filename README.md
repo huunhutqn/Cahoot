@@ -3,7 +3,7 @@
   <br>
   <div align="center">
     <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/huunhutqn/Cahoot/edit/main/README.md&countColor=%2337d67a">
-    <img src="https://img.shields.io/docker/pulls/huunhutqn/rahoot?style=for-the-badge&color=37d67a" alt="Docker Pulls">
+    <img src="https://img.shields.io/docker/pulls/huunhutqn/cahoot?style=for-the-badge&color=37d67a" alt="Docker Pulls">
   </div>
 </p>
 
@@ -55,7 +55,7 @@ docker run -d \
   -v ./config:/app/config \
   -e WEB_ORIGIN=http://localhost:3000 \
   -e SOCKET_URL=http://localhost:3001 \
-  huunhutqn/rahoot:latest
+  huunhutqn/cahoot:latest
 ```
 
 **Configuration Volume:**

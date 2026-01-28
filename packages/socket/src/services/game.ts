@@ -1,13 +1,9 @@
-import { Answer, Player, Quizz } from "@rahoot/common/types/game";
-import { Server, Socket } from "@rahoot/common/types/game/socket";
-import {
-  Status,
-  STATUS,
-  StatusDataMap,
-} from "@rahoot/common/types/game/status";
-import Registry from "@rahoot/socket/services/registry";
-import { createInviteCode, timeToPoint } from "@rahoot/socket/utils/game";
-import sleep from "@rahoot/socket/utils/sleep";
+import { Answer, Player, Quizz } from "@/common/types/game";
+import { Server, Socket } from "@/common/types/game/socket";
+import { Status, STATUS, StatusDataMap } from "@/common/types/game/status";
+import Registry from "@cahoot/socket/services/registry";
+import { createInviteCode, timeToPoint } from "@cahoot/socket/utils/game";
+import sleep from "@cahoot/socket/utils/sleep";
 import { v4 as uuid } from "uuid";
 
 const registry = Registry.getInstance();

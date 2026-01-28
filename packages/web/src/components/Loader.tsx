@@ -1,4 +1,4 @@
-import loader from "@rahoot/web/assets/loader.svg"
+import loader from "@cahoot/web/assets/loader.svg"
 import Image from "next/image"
 
 type Props = {

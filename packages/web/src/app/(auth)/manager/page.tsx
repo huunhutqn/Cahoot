@@ -1,11 +1,11 @@
 "use client"
 
-import { QuizzWithId } from "@rahoot/common/types/game"
-import { STATUS } from "@rahoot/common/types/game/status"
-import ManagerPassword from "@rahoot/web/components/game/create/ManagerPassword"
-import SelectQuizz from "@rahoot/web/components/game/create/SelectQuizz"
-import { useEvent, useSocket } from "@rahoot/web/contexts/socketProvider"
-import { useManagerStore } from "@rahoot/web/stores/manager"
+import { QuizzWithId } from "@/common/types/game"
+import { STATUS } from "@/common/types/game/status"
+import ManagerPassword from "@cahoot/web/components/game/create/ManagerPassword"
+import SelectQuizz from "@cahoot/web/components/game/create/SelectQuizz"
+import { useEvent, useSocket } from "@cahoot/web/contexts/socketProvider"
+import { useManagerStore } from "@cahoot/web/stores/manager"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
