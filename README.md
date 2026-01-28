@@ -73,6 +73,13 @@ npm run dev
 Next.js tự động load `.env.production` khi build và start:
 
 ```bash
+# Build và start production server (một lệnh)
+npm run prod
+```
+
+**Hoặc build và start riêng biệt:**
+
+```bash
 # Build với production env
 npm run build
 
