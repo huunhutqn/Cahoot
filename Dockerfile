@@ -7,10 +7,8 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 FROM base AS deps
 WORKDIR /app
 
-# Copy pnpm configuration files
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
-COPY packages/web/package.json ./packages/web/
-COPY packages/socket/package.json ./packages/socket/
+# Copy package files
+COPY pnpm-lock.yaml package.json ./
 
 # Install only production dependencies
 RUN pnpm install --frozen-lockfile --prod
@@ -19,22 +17,20 @@ RUN pnpm install --frozen-lockfile --prod
 FROM base AS builder
 WORKDIR /app
 
-# Copy all monorepo files
+# Copy all files
 COPY . .
 
 # Install all dependencies (including dev) for build
 RUN pnpm install --frozen-lockfile
 
-# Build Next.js app with standalone output for smaller runtime image
-WORKDIR /app/packages/web
-
+# Build Next.js app with standalone output
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN pnpm build
+# Default to production socket URL (can be overridden at build time)
+ARG SOCKET_URL=https://cahoot-socket.nhut95.me
+ENV SOCKET_URL=${SOCKET_URL}
 
-# Build socket server if needed (TypeScript or similar)
-WORKDIR /app/packages/socket
-RUN if [ -f "tsconfig.json" ]; then pnpm build; fi
+RUN pnpm build
 
 # ----- RUNNER -----
 FROM node:22-alpine AS runner
@@ -42,32 +38,25 @@ WORKDIR /app
 
 # Create a non-root user for better security
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
-
-
-# Enable pnpm in the runtime image
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-# Copy configuration files
-COPY pnpm-workspace.yaml package.json ./
+RUN adduser --system --uid 1001 nextjs
 
 # Copy the Next.js standalone build
-COPY --from=builder /app/packages/web/.next/standalone ./
-COPY --from=builder /app/packages/web/.next/static ./packages/web/.next/static
-COPY --from=builder /app/packages/web/public ./packages/web/public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
-# Copy the socket server build
-COPY --from=builder /app/packages/socket/dist ./packages/socket/dist
+# Set correct permissions
+RUN chown -R nextjs:nodejs /app
 
-# Copy the game default config
-COPY --from=builder /app/config ./config
+USER nextjs
 
-# Expose the web and socket ports
-EXPOSE 3000 5505
+# Expose port
+EXPOSE 3000
 
 # Environment variables
 ENV NODE_ENV=production
-ENV CONFIG_PATH=/app/config
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
-# Start both services (Next.js web app + Socket server)
-CMD ["sh", "-c", "node packages/web/server.js & node packages/socket/dist/index.cjs"]
+# Start Next.js
+CMD ["node", "server.js"]

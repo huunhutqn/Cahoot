@@ -18,7 +18,7 @@ Web frontend cho Cahoot - một bản clone mã nguồn mở của Kahoot!
 ## ⚙️ Yêu cầu
 
 - Node.js >= 20
-- PNPM (khuyến nghị) hoặc npm
+- npm hoặc yarn
 - Cahoot Socket Server đang chạy
 
 ## 📖 Cài đặt
@@ -33,50 +33,95 @@ cd Cahoot
 2. Cài đặt dependencies:
 
 ```bash
-pnpm install
+npm install
 ```
 
-3. Tạo file `.env` từ `.env.example`:
+3. **Environment Variables**
 
-```bash
-cp .env.example .env
-```
+Project sử dụng các file env sau:
 
-4. Cấu hình biến môi trường:
+- `.env.development` - Tự động load khi chạy `npm run dev`
+- `.env.production` - Tự động load khi chạy `npm run build` và `npm start`
+- `.env.local` - Override cho cấu hình local (không commit vào git)
 
+**Development** (mặc định):
 ```env
 SOCKET_URL=http://localhost:3001
 ```
 
-5. Chạy development server:
-
-```bash
-pnpm dev
+**Production** (đã có sẵn trong `.env.production`):
+```env
+SOCKET_URL=https://cahoot-socket.nhut95.me
 ```
 
-6. Mở http://localhost:3000
+**Custom local** (tùy chọn - tạo file `.env.local`):
+```bash
+# Override bất kỳ env nào
+SOCKET_URL=http://your-custom-socket-url:3001
+```
+
+4. Chạy development server:
+
+```bash
+npm run dev
+```
+
+5. Mở http://localhost:3000
 
 ## 🚀 Build Production
 
+Next.js tự động load `.env.production` khi build và start:
+
 ```bash
-pnpm build
-pnpm start
+# Build với production env
+npm run build
+
+# Start production server
+npm start
+```
+
+**Hoặc sử dụng explicit scripts:**
+
+```bash
+# Build với production env (explicit)
+npm run build:prod
+
+# Start với production env (explicit)
+npm run start:prod
 ```
 
 ## 🐳 Docker
 
-### Sử dụng Docker Compose (khuyến nghị)
+### Build cho Production
 
 ```bash
-docker compose up -d
-```
-
-### Sử dụng Docker trực tiếp
-
-```bash
+# Build với production socket URL (mặc định: https://cahoot-socket.nhut95.me)
 docker build -t cahoot-web .
-docker run -d -p 3000:3000 -e SOCKET_URL=http://your-socket-server:3001 cahoot-web
+
+# Hoặc build với custom socket URL
+docker build -t cahoot-web --build-arg SOCKET_URL=https://your-socket-server.com .
 ```
+
+### Chạy container
+
+```bash
+docker run -d -p 3000:3000 cahoot-web
+```
+
+### Sử dụng Docker Compose
+
+```bash
+# Production
+docker compose up -d
+
+# Development (với local socket server)
+docker compose --profile dev up cahoot-web-dev
+```
+
+## 🌐 Production URLs
+
+- **Web**: https://cahoot.nhut95.me
+- **Socket Server**: https://cahoot-socket.nhut95.me
 
 ## 📁 Cấu trúc thư mục
 

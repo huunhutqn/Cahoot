@@ -1,13 +1,21 @@
-version: "3.8"
-
 services:
-  cahoot:
-    image: huunhutqn/cahoot:latest
+  cahoot-web:
+    build:
+      context: .
+      args:
+        - SOCKET_URL=https://cahoot-socket.nhut95.me
     ports:
       - "3000:3000"
-      - "3001:3001"
-    volumes:
-      - ./config:/app/config # Path to your game config
     environment:
-      - WEB_ORIGIN=http://localhost:3000
-      - SOCKET_URL=http://localhost:3001
+      - NODE_ENV=production
+
+  # Development only - use local socket server
+  cahoot-web-dev:
+    build:
+      context: .
+      args:
+        - SOCKET_URL=http://localhost:3001
+    ports:
+      - "3000:3000"
+    profiles:
+      - dev
