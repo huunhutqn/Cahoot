@@ -3,10 +3,10 @@
 import { ManagerStatusDataMap } from "@rahoot/common/types/game/status"
 import useScreenSize from "@rahoot/web/hooks/useScreenSize"
 import {
-  SFX_PODIUM_FIRST,
-  SFX_PODIUM_SECOND,
-  SFX_PODIUM_THREE,
-  SFX_SNEAR_ROOL,
+    SFX_PODIUM_FIRST,
+    SFX_PODIUM_SECOND,
+    SFX_PODIUM_THREE,
+    SFX_SNEAR_ROOL,
 } from "@rahoot/web/utils/constants"
 import clsx from "clsx"
 import { useEffect, useState } from "react"

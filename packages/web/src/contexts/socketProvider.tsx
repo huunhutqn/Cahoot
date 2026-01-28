@@ -2,16 +2,16 @@
 "use client"
 
 import {
-  ClientToServerEvents,
-  ServerToClientEvents,
+    ClientToServerEvents,
+    ServerToClientEvents,
 } from "@rahoot/common/types/game/socket"
 import ky from "ky"
 import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useState,
 } from "react"
 import { io, Socket } from "socket.io-client"
 import { v7 as uuid } from "uuid"

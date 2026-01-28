@@ -3,10 +3,10 @@
 import { ManagerStatusDataMap } from "@rahoot/common/types/game/status"
 import AnswerButton from "@rahoot/web/components/AnswerButton"
 import {
-  ANSWERS_COLORS,
-  ANSWERS_ICONS,
-  SFX_ANSWERS_MUSIC,
-  SFX_RESULTS_SOUND,
+    ANSWERS_COLORS,
+    ANSWERS_ICONS,
+    SFX_ANSWERS_MUSIC,
+    SFX_RESULTS_SOUND,
 } from "@rahoot/web/utils/constants"
 import { calculatePercentages } from "@rahoot/web/utils/score"
 import clsx from "clsx"

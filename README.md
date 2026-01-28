@@ -1,22 +1,22 @@
 <p align="center">
-  <img width="450" height="120" align="center" src="https://raw.githubusercontent.com/Ralex91/Rahoot/main/.github/logo.svg">
+  <img width="450" height="120" align="center" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/logo.svg">
   <br>
   <div align="center">
-    <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/Ralex91/Rahoot/edit/main/README.md&countColor=%2337d67a">
-    <img src="https://img.shields.io/docker/pulls/ralex91/rahoot?style=for-the-badge&color=37d67a" alt="Docker Pulls">
+    <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/huunhutqn/Cahoot/edit/main/README.md&countColor=%2337d67a">
+    <img src="https://img.shields.io/docker/pulls/huunhutqn/rahoot?style=for-the-badge&color=37d67a" alt="Docker Pulls">
   </div>
 </p>
 
 ## 🧩 What is this project?
 
-Rahoot is a straightforward and open-source clone of the Kahoot! platform, allowing users to host it on their own server for smaller events.
+Cahoot is a straightforward and open-source clone of the Kahoot! platform, allowing users to host it on their own server for smaller events.
 
-> ⚠️ This project is still under development, please report any bugs or suggestions in the [issues](https://github.com/Ralex91/Rahoot/issues)
+> ⚠️ This project is still under development, please report any bugs or suggestions in the [issues](https://github.com/huunhutqn/Cahoot/issues)
 
 <p align="center">
-  <img width="30%" src="https://raw.githubusercontent.com/Ralex91/Rahoot/main/.github/preview1.jpg" alt="Login">
-  <img width="30%" src="https://raw.githubusercontent.com/Ralex91/Rahoot/main/.github/preview2.jpg" alt="Manager Dashboard">
-  <img width="30%" src="https://raw.githubusercontent.com/Ralex91/Rahoot/main/.github/preview3.jpg" alt="Question Screen">
+  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview1.jpg" alt="Login">
+  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview2.jpg" alt="Manager Dashboard">
+  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview3.jpg" alt="Question Screen">
 </p>
 
 ## ⚙️ Prerequisites
@@ -55,7 +55,7 @@ docker run -d \
   -v ./config:/app/config \
   -e WEB_ORIGIN=http://localhost:3000 \
   -e SOCKET_URL=http://localhost:3001 \
-  ralex91/rahoot:latest
+  huunhutqn/rahoot:latest
 ```
 
 **Configuration Volume:**
@@ -77,8 +77,8 @@ The application will be available at:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Ralex91/Rahoot.git
-cd ./Rahoot
+git clone https://github.com/huunhutqn/Cahoot.git
+cd ./Cahoot
 ```
 
 2. Install dependencies:
@@ -169,4 +169,4 @@ Quiz Options:
 4. Create a pull request
 5. Wait for review and merge
 
-For bug reports or feature requests, please [create an issue](https://github.com/Ralex91/Rahoot/issues).
+For bug reports or feature requests, please [create an issue](https://github.com/huunhutqn/Cahoot/issues).
