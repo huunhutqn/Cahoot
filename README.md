@@ -1,13 +1,22 @@
 # Cahoot Socket Server
 
-WebSocket server cho Cahoot - một bản clone open-source của nền tảng Kahoot!
+WebSocket + REST API server cho Cahoot - một bản clone open-source của nền tảng Kahoot!
 
 ## 🧩 Giới thiệu
 
 Đây là package **socket server** cho hệ thống Cahoot, chịu trách nhiệm xử lý:
-- Real-time communication giữa players và manager
+- Real-time communication giữa players và manager (Socket.IO)
 - Game state management
+- Quiz CRUD operations (REST API + Socket.IO)
 - Quiz configuration loading
+
+## 🛠️ Tech Stack
+
+- **Framework**: Express.js
+- **WebSocket**: Socket.IO
+- **Language**: TypeScript
+- **Build**: esbuild
+- **Runtime**: Node.js 20+
 
 ## ⚙️ Yêu cầu
 
@@ -97,7 +106,72 @@ Socket server sẽ chạy tại:
 │   └── quizz/              # Thư mục chứa các quiz
 │       └── example.json    # Quiz mẫu
 ├── src/
-│   ├── index.ts            # Entry point
+│   ├── index.ts            # Entry point (Express + Socket.IO)
+│   ├── env.ts              # Environment variables
+│   ├── routes/             # REST API routes
+│   │   └── quizz.ts        # Quiz CRUD endpoints
+│   ├── common/
+│   │   ├── types/          # TypeScript types
+│   │   └── validators/     # Zod validators
+│   ├── services/
+│   │   ├── config.ts       # Config loader
+│   │   ├── quizz.ts        # Quiz service (with caching)
+│   │   ├── game.ts         # Game logic
+│   │   └── registry.ts     # Game registry
+│   └── utils/              # Utility functions
+└── dist/                   # Built output (index.js)
+```
+
+## 🌐 API Endpoints
+
+### Health Check
+
+**GET /**
+```json
+{
+  "status": "ok",
+  "service": "Cahoot Socket Server",
+  "version": "1.0.0",
+  "framework": "Express + Socket.IO",
+  "uptime": 123.45
+}
+```
+
+**GET /health**
+```json
+{
+  "status": "healthy",
+  "connections": 5,
+  "games": 2,
+  "uptime": 123.45
+}
+```
+
+### Quiz REST API
+
+Base URL: `/api/quizz`
+
+**GET /api/quizz**
+- Lấy tất cả quizzes
+- Response: `QuizzWithId[]`
+
+**GET /api/quizz/:id**
+- Lấy một quiz theo ID
+- Response: `QuizzWithId`
+
+**POST /api/quizz**
+- Tạo quiz mới
+- Body: `{ id: string, data: Quizz }`
+- Response: `QuizzWithId` (201)
+
+**PUT /api/quizz/:id**
+- Cập nhật quiz
+- Body: `Quizz`
+- Response: `QuizzWithId`
+
+**DELETE /api/quizz/:id**
+- Xóa quiz
+- Response: `{ message: string, id: string }`
 │   ├── env.ts              # Environment variables
 │   ├── common/
 │   │   ├── types/          # TypeScript types

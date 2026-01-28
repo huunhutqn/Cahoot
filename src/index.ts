@@ -6,27 +6,64 @@ import {
   quizzIdValidator,
   updateQuizzValidator,
 } from "@/common/validators/quizz";
+import quizzRouter from "@/routes/quizz";
 import env from "@cahoot/socket/env";
 import Config from "@cahoot/socket/services/config";
 import Game from "@cahoot/socket/services/game";
 import QuizzService from "@cahoot/socket/services/quizz";
 import Registry from "@cahoot/socket/services/registry";
 import { withGame } from "@cahoot/socket/utils/game";
+import express from "express";
+import { createServer } from "http";
 import { Server as ServerIO } from "socket.io";
 
-const io: Server = new ServerIO({
+// Initialize Express app
+const app = express();
+const httpServer = createServer(app);
+
+// Initialize Socket.IO with Express
+const io: Server = new ServerIO(httpServer, {
   cors: {
     origin: [env.WEB_ORIGIN],
   },
 });
+
+// Express middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    service: "Cahoot Socket Server",
+    version: "1.0.0",
+    framework: "Express + Socket.IO",
+    uptime: process.uptime(),
+  });
+});
+
+app.get("/health", (req, res) => {
+  const registry = Registry.getInstance();
+  res.json({
+    status: "healthy",
+    connections: io.engine.clientsCount,
+    games: registry.getAllGames().length,
+    uptime: process.uptime(),
+  });
+});
+
+// REST API Routes
+app.use("/api/quizz", quizzRouter);
+
+// Initialize config
 Config.init();
 
 const registry = Registry.getInstance();
-// ưu tiên PORT từ môi trường (Hostinger sẽ set), nếu không có thì dùng PORT trong env của bạn
 const port = process.env.PORT ?? env.PORT ?? 3001;
 
-console.log(`Socket server running on port ${port}`);
-io.listen(Number(port));
+console.log(`Express + Socket.IO server running on port ${port}`);
+httpServer.listen(Number(port));
 
 io.on("connection", (socket) => {
   console.log(

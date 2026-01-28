@@ -1,7 +1,8 @@
 import esbuild from "esbuild";
+import { copyFileSync } from "fs";
 import path from "path";
 
-export const config = {
+const config = {
   entryPoints: ["src/index.ts"],
   bundle: true,
   minify: true,
@@ -19,4 +20,13 @@ export const config = {
   },
 };
 
-esbuild.build(config);
+// Build to dist/
+await esbuild.build(config);
+console.log("✓ Built to dist/index.js");
+
+// Copy to root
+copyFileSync("dist/index.js", "index.js");
+copyFileSync("dist/index.js.map", "index.js.map");
+console.log("✓ Copied to index.js");
+
+export { config };
