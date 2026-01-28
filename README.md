@@ -1,172 +1,121 @@
-<p align="center">
-  <img width="450" height="120" align="center" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/logo.svg">
-  <br>
-  <div align="center">
-    <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/huunhutqn/Cahoot/edit/main/README.md&countColor=%2337d67a">
-    <img src="https://img.shields.io/docker/pulls/huunhutqn/cahoot?style=for-the-badge&color=37d67a" alt="Docker Pulls">
-  </div>
-</p>
+# Cahoot Web
 
-## 🧩 What is this project?
+Web frontend cho Cahoot - một bản clone mã nguồn mở của Kahoot!
 
-Cahoot is a straightforward and open-source clone of the Kahoot! platform, allowing users to host it on their own server for smaller events.
+## 🧩 Giới thiệu
 
-> ⚠️ This project is still under development, please report any bugs or suggestions in the [issues](https://github.com/huunhutqn/Cahoot/issues)
+Đây là phần **web frontend** của dự án Cahoot, được xây dựng bằng Next.js 16 và React 19. Web app này kết nối với [Cahoot Socket Server](https://github.com/huunhutqn/Cahoot-socket) để tạo trải nghiệm quiz game realtime.
 
-<p align="center">
-  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview1.jpg" alt="Login">
-  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview2.jpg" alt="Manager Dashboard">
-  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview3.jpg" alt="Question Screen">
-</p>
+## 🛠️ Tech Stack
 
-## ⚙️ Prerequisites
+- **Framework**: Next.js 16
+- **UI**: React 19, TailwindCSS 4
+- **State Management**: Zustand
+- **Realtime**: Socket.IO Client
+- **Animation**: Motion (Framer Motion)
+- **Form Validation**: Yup, Zod
 
-Choose one of the following deployment methods:
+## ⚙️ Yêu cầu
 
-### Without Docker
+- Node.js >= 20
+- PNPM (khuyến nghị) hoặc npm
+- Cahoot Socket Server đang chạy
 
-- Node.js : version 20 or higher
-- PNPM : Learn more about [here](https://pnpm.io/)
+## 📖 Cài đặt
 
-### With Docker
-
-- Docker and Docker Compose
-
-## 📖 Getting Started
-
-Choose your deployment method:
-
-### 🐳 Using Docker (Recommended)
-
-Using Docker Compose (recommended):
-You can find the docker compose configuration in the repository:
-[docker-compose.yml](/compose.yml)
-
-```bash
-docker compose up -d
-```
-
-Or using Docker directly:
-
-```bash
-docker run -d \
-  -p 3000:3000 \
-  -p 3001:3001 \
-  -v ./config:/app/config \
-  -e WEB_ORIGIN=http://localhost:3000 \
-  -e SOCKET_URL=http://localhost:3001 \
-  huunhutqn/cahoot:latest
-```
-
-**Configuration Volume:**
-The `-v ./config:/app/config` option mounts a local `config` folder to persist your game settings and quizzes. This allows you to:
-
-- Edit your configuration files directly on your host machine
-- Keep your settings when updating the container
-- Easily backup your quizzes and game configuration
-
-The folder will be created automatically on first run with an example quiz to get you started.
-
-The application will be available at:
-
-- Web Interface: http://localhost:3000
-- WebSocket Server: ws://localhost:3001
-
-### 🛠️ Without Docker
-
-1. Clone the repository:
+1. Clone repository:
 
 ```bash
 git clone https://github.com/huunhutqn/Cahoot.git
-cd ./Cahoot
+cd Cahoot
 ```
 
-2. Install dependencies:
+2. Cài đặt dependencies:
 
 ```bash
 pnpm install
 ```
 
-3. Change the environment variables in the `.env` file
-
-4. Build and start the application:
+3. Tạo file `.env` từ `.env.example`:
 
 ```bash
-# Development mode
-pnpm run dev
+cp .env.example .env
+```
 
-# Production mode
-pnpm run build
+4. Cấu hình biến môi trường:
+
+```env
+SOCKET_URL=http://localhost:3001
+```
+
+5. Chạy development server:
+
+```bash
+pnpm dev
+```
+
+6. Mở http://localhost:3000
+
+## 🚀 Build Production
+
+```bash
+pnpm build
 pnpm start
 ```
 
-## ⚙️ Configuration
+## 🐳 Docker
 
-The configuration is split into two main parts:
+### Sử dụng Docker Compose (khuyến nghị)
 
-### 1. Game Configuration (`config/game.json`)
-
-Main game settings:
-
-```json
-{
-  "managerPassword": "PASSWORD",
-  "music": true
-}
+```bash
+docker compose up -d
 ```
 
-Options:
+### Sử dụng Docker trực tiếp
 
-- `managerPassword`: The master password for accessing the manager interface
-- `music`: Enable/disable game music
-
-### 2. Quiz Configuration (`config/quizz/*.json`)
-
-Create your quiz files in the `config/quizz/` directory. You can have multiple quiz files and select which one to use when starting a game.
-
-Example quiz configuration (`config/quizz/example.json`):
-
-```json
-{
-  "subject": "Example Quiz",
-  "questions": [
-    {
-      "question": "What is the correct answer?",
-      "answers": ["No", "Yes", "No", "No"],
-      "image": "https://images.unsplash.com/....",
-      "solution": 1,
-      "cooldown": 5,
-      "time": 15
-    }
-  ]
-}
+```bash
+docker build -t cahoot-web .
+docker run -d -p 3000:3000 -e SOCKET_URL=http://your-socket-server:3001 cahoot-web
 ```
 
-Quiz Options:
+## 📁 Cấu trúc thư mục
 
-- `subject`: Title/topic of the quiz
-- `questions`: Array of question objects containing:
-  - `question`: The question text
-  - `answers`: Array of possible answers (2-4 options)
-  - `image`: Optional URL for question image
-  - `solution`: Index of correct answer (0-based)
-  - `cooldown`: Time in seconds before showing the question
-  - `time`: Time in seconds allowed to answer
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # Auth pages (login, manager)
+│   ├── game/              # Game pages
+│   └── socket/            # Socket API route
+├── common/                 # Shared types và validators
+├── components/            # React components
+│   ├── game/              # Game-specific components
+│   └── icons/             # Icon components
+├── contexts/              # React contexts (Socket provider)
+├── hooks/                 # Custom hooks
+├── stores/                # Zustand stores
+└── utils/                 # Utility functions và constants
 
-## 🎮 How to Play
+config/                    # Config files (for socket server)
+public/
+└── sounds/               # Game sound effects
+```
 
-1. Access the manager interface at http://localhost:3000/manager
-2. Enter the manager password (defined in quiz config)
-3. Share the game URL (http://localhost:3000) and room code with participants
-4. Wait for players to join
-5. Click the start button to begin the game
+## 🎮 Cách chơi
 
-## 📝 Contributing
+1. **Quản trị viên**: Truy cập `/manager`, nhập mật khẩu và chọn quiz
+2. **Người chơi**: Truy cập trang chủ `/`, nhập mã phòng và tên
+3. Quản trị viên bắt đầu game khi tất cả người chơi đã tham gia
+4. Trả lời câu hỏi nhanh và chính xác để ghi điểm!
 
-1. Fork the repository
-2. Create a new branch (e.g., `feat/my-feature`)
-3. Make your changes
-4. Create a pull request
-5. Wait for review and merge
+## 🔗 Liên kết
 
-For bug reports or feature requests, please [create an issue](https://github.com/huunhutqn/Cahoot/issues).
+- [Cahoot Socket Server](https://github.com/huunhutqn/Cahoot-socket) - Backend WebSocket server
+- [Báo lỗi / Góp ý](https://github.com/huunhutqn/Cahoot/issues)
+
+## 📝 Đóng góp
+
+1. Fork repository
+2. Tạo branch mới (`git checkout -b feat/my-feature`)
+3. Commit changes (`git commit -m 'Add my feature'`)
+4. Push to branch (`git push origin feat/my-feature`)
+5. Tạo Pull Request
