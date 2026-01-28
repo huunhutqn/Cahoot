@@ -70,7 +70,9 @@ npm run dev
 
 ## 🚀 Build Production
 
-Next.js tự động load `.env.production` khi build và start:
+Next.js được cấu hình với `output: "standalone"`, nên cần sử dụng Node.js trực tiếp để chạy server.
+
+**Cách nhanh nhất (khuyến nghị):**
 
 ```bash
 # Build và start production server (một lệnh)
@@ -81,21 +83,19 @@ npm run prod
 
 ```bash
 # Build với production env
-npm run build
-
-# Start production server
-npm start
-```
-
-**Hoặc sử dụng explicit scripts:**
-
-```bash
-# Build với production env (explicit)
 npm run build:prod
 
-# Start với production env (explicit)
-npm run start:prod
+# Start production server
+npm start:prod
 ```
+
+**Hoặc chạy Node.js trực tiếp:**
+
+```bash
+NODE_ENV=production node .next/standalone/server.js
+```
+
+> **Lưu ý:** Với cấu hình `output: "standalone"`, phải sử dụng `node .next/standalone/server.js` thay vì `next start`.
 
 ## 🐳 Docker
 

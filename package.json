@@ -4,11 +4,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:prod": "NODE_ENV=production next build",
-    "start": "next start",
-    "start:prod": "NODE_ENV=production next start",
-    "prod": "NODE_ENV=production npm run build && NODE_ENV=production npm start",
-    "lint": "eslint"
+    "start": "next start -p $PORT",
+    "prod": "NODE_ENV=production npm run build && NODE_ENV=production npm start"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.8",

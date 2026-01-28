@@ -1,7 +1,9 @@
 const nextConfig = {
   output: "standalone",
   productionBrowserSourceMaps: false,
-  transpilePackages: ["packages/*", "@t3-oss/env-nextjs"],
+  transpilePackages: ["@t3-oss/env-nextjs"],
+  compress: true,
+  poweredByHeader: false,
 }
 
 export default nextConfig
