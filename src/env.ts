@@ -5,9 +5,13 @@ const env = createEnv({
   server: {
     SOCKET_URL: z.string().default("http://localhost:3001"),
   },
+  client: {
+    NEXT_PUBLIC_SOCKET_URL: z.string().default("http://localhost:3001"),
+  },
 
   runtimeEnv: {
     SOCKET_URL: process.env.SOCKET_URL,
+    NEXT_PUBLIC_SOCKET_URL: process.env.NEXT_PUBLIC_SOCKET_URL,
   },
 })
 

@@ -38,27 +38,27 @@ npm install
 
 3. **Environment Variables**
 
-Project sử dụng các file env sau:
+Project tự động load `.env.development` khi chạy `npm run dev`.
 
-- `.env.development` - Tự động load khi chạy `npm run dev`
-- `.env.production` - Tự động load khi chạy `npm run build` và `npm start`
-- `.env.local` - Override cho cấu hình local (không commit vào git)
+Cho production, set environment variables trực tiếp trên server (Docker/hosting):
 
-**Development** (mặc định):
-```env
-SOCKET_URL=http://localhost:3001
-```
-
-**Production** (đã có sẵn trong `.env.production`):
-```env
-SOCKET_URL=https://cahoot-socket.nhut95.me
-```
-
-**Custom local** (tùy chọn - tạo file `.env.local`):
 ```bash
-# Override bất kỳ env nào
-SOCKET_URL=http://your-custom-socket-url:3001
+# Server environment
+export SOCKET_URL=https://cahoot-socket.nhut95.me
+export NEXT_PUBLIC_SOCKET_URL=https://cahoot-socket.nhut95.me
 ```
+
+**Hoặc tạo file `.env.local` cho custom config:**
+```bash
+# Development override
+SOCKET_URL=http://your-socket-server:3001
+NEXT_PUBLIC_SOCKET_URL=http://your-socket-server:3001
+```
+
+**.env files:**
+- `.env.example` - Template (commit vào git)
+- `.env.development` - Development defaults (commit vào git)
+- `.env.local` - Custom local config (không commit)
 
 4. Chạy development server:
 
@@ -70,32 +70,31 @@ npm run dev
 
 ## 🚀 Build Production
 
-Next.js được cấu hình với `output: "standalone"`, nên cần sử dụng Node.js trực tiếp để chạy server.
-
-**Cách nhanh nhất (khuyến nghị):**
+Build và start production:
 
 ```bash
-# Build và start production server (một lệnh)
-npm run prod
+# Build
+npm run build
+
+# Start (mặc định port 3000)
+npm start
+
+# Hoặc specify port
+PORT=8080 npm start
 ```
 
-**Hoặc build và start riêng biệt:**
+**Với environment variables:**
 
 ```bash
-# Build với production env
-npm run build:prod
+# Set env trước khi build/start
+export SOCKET_URL=https://cahoot-socket.nhut95.me
+export NEXT_PUBLIC_SOCKET_URL=https://cahoot-socket.nhut95.me
 
-# Start production server
-npm start:prod
+npm run build
+npm start
 ```
 
-**Hoặc chạy Node.js trực tiếp:**
-
-```bash
-NODE_ENV=production node .next/standalone/server.js
-```
-
-> **Lưu ý:** Với cấu hình `output: "standalone"`, phải sử dụng `node .next/standalone/server.js` thay vì `next start`.
+> **Lưu ý:** Với cấu hình `output: "standalone"`, `next start` tự động chạy `.next/standalone/server.js`
 
 ## 🐳 Docker
 
