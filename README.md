@@ -68,11 +68,12 @@ npm run dev
 # Install dependencies
 npm install
 
-# Build
-npm run build
+# Build và start production (một lệnh)
+npm run prod
 
-# Start với .env.production
-npm run start:prod
+# Hoặc chạy riêng rẽ:
+npm run build          # Build
+npm run start:prod     # Start với .env.production
 ```
 
 **Production (với PM2):**
@@ -188,6 +189,8 @@ Ví dụ (`config/quizz/example.json`):
 | `npm run dev` | Chạy development với hot-reload |
 | `npm run build` | Build production |
 | `npm start` | Chạy production build |
+| `npm run start:prod` | Start với .env.production |
+| `npm run prod` | **Build và start production (all-in-one)** |
 | `npm run lint` | Kiểm tra linting |
 
 ## � Deploy lên Production Server
@@ -208,8 +211,10 @@ npm install
 # PORT=3001
 # WEB_ORIGIN=https://cahoot.nhut95.me
 
-# Build
-npm run build
+# Build và start (một lệnh) - Test thử trước
+npm run prod
+
+# Nếu chạy OK, stop và chuyển sang dùng PM2
 ```
 
 ### 2. Setup với PM2 (Khuyên dùng)
