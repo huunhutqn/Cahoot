@@ -1,112 +1,84 @@
-<p align="center">
-  <img width="450" height="120" align="center" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/logo.svg">
-  <br>
-  <div align="center">
-    <img alt="Visitor Badge" src="https://api.visitorbadge.io/api/visitors?path=https://github.com/huunhutqn/Cahoot/edit/main/README.md&countColor=%2337d67a">
-    <img src="https://img.shields.io/docker/pulls/huunhutqn/cahoot?style=for-the-badge&color=37d67a" alt="Docker Pulls">
-  </div>
-</p>
+# Cahoot Socket Server
 
-## 🧩 What is this project?
+WebSocket server cho Cahoot - một bản clone open-source của nền tảng Kahoot!
 
-Cahoot is a straightforward and open-source clone of the Kahoot! platform, allowing users to host it on their own server for smaller events.
+## 🧩 Giới thiệu
 
-> ⚠️ This project is still under development, please report any bugs or suggestions in the [issues](https://github.com/huunhutqn/Cahoot/issues)
+Đây là package **socket server** cho hệ thống Cahoot, chịu trách nhiệm xử lý:
+- Real-time communication giữa players và manager
+- Game state management
+- Quiz configuration loading
 
-<p align="center">
-  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview1.jpg" alt="Login">
-  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview2.jpg" alt="Manager Dashboard">
-  <img width="30%" src="https://raw.githubusercontent.com/huunhutqn/Cahoot/main/.github/preview3.jpg" alt="Question Screen">
-</p>
+## ⚙️ Yêu cầu
 
-## ⚙️ Prerequisites
+- Node.js: phiên bản 20 trở lên
+- npm hoặc pnpm
 
-Choose one of the following deployment methods:
+## 📖 Cài đặt & Chạy
 
-### Without Docker
-
-- Node.js : version 20 or higher
-- PNPM : Learn more about [here](https://pnpm.io/)
-
-### With Docker
-
-- Docker and Docker Compose
-
-## 📖 Getting Started
-
-Choose your deployment method:
-
-### 🐳 Using Docker (Recommended)
-
-Using Docker Compose (recommended):
-You can find the docker compose configuration in the repository:
-[docker-compose.yml](/compose.yml)
+### 1. Clone và cài đặt dependencies
 
 ```bash
-docker compose up -d
+git clone <repository-url>
+cd Cahoot-socket
+npm install
 ```
 
-Or using Docker directly:
+### 2. Cấu hình môi trường
+
+Tạo file `.env` từ template:
 
 ```bash
-docker run -d \
-  -p 3000:3000 \
-  -p 3001:3001 \
-  -v ./config:/app/config \
-  -e WEB_ORIGIN=http://localhost:3000 \
-  -e SOCKET_URL=http://localhost:3001 \
-  huunhutqn/cahoot:latest
+cp .env.example .env
 ```
 
-**Configuration Volume:**
-The `-v ./config:/app/config` option mounts a local `config` folder to persist your game settings and quizzes. This allows you to:
+Các biến môi trường:
 
-- Edit your configuration files directly on your host machine
-- Keep your settings when updating the container
-- Easily backup your quizzes and game configuration
+| Biến | Mô tả | Mặc định |
+|------|-------|----------|
+| `WEB_ORIGIN` | URL của web client (CORS) | `http://localhost:3000` |
+| `SOCKET_PORT` | Port cho socket server | `3001` |
+| `CONFIG_PATH` | Đường dẫn thư mục config (cho Docker) | - |
 
-The folder will be created automatically on first run with an example quiz to get you started.
-
-The application will be available at:
-
-- Web Interface: http://localhost:3000
-- WebSocket Server: ws://localhost:3001
-
-### 🛠️ Without Docker
-
-1. Clone the repository:
+### 3. Chạy ứng dụng
 
 ```bash
-git clone https://github.com/huunhutqn/Cahoot.git
-cd ./Cahoot
-```
-
-2. Install dependencies:
-
-```bash
-pnpm install
-```
-
-3. Change the environment variables in the `.env` file
-
-4. Build and start the application:
-
-```bash
-# Development mode
-pnpm run dev
+# Development mode (với hot-reload)
+npm run dev
 
 # Production mode
-pnpm run build
-pnpm start
+npm run build
+npm start
 ```
 
-## ⚙️ Configuration
+Socket server sẽ chạy tại: `ws://localhost:3001`
 
-The configuration is split into two main parts:
+## 📁 Cấu trúc Project
+
+```
+├── config/                  # Thư mục cấu hình game
+│   ├── game.json           # Cấu hình chung
+│   └── quizz/              # Thư mục chứa các quiz
+│       └── example.json    # Quiz mẫu
+├── src/
+│   ├── index.ts            # Entry point
+│   ├── env.ts              # Environment variables
+│   ├── common/
+│   │   ├── types/          # TypeScript types
+│   │   └── validators/     # Zod validators
+│   ├── services/
+│   │   ├── config.ts       # Config loader
+│   │   ├── game.ts         # Game logic
+│   │   └── registry.ts     # Game registry
+│   └── utils/              # Utility functions
+└── dist/                   # Built output
+```
+
+## ⚙️ Cấu hình
 
 ### 1. Game Configuration (`config/game.json`)
 
-Main game settings:
+Cấu hình chung cho game:
 
 ```json
 {
@@ -115,25 +87,25 @@ Main game settings:
 }
 ```
 
-Options:
-
-- `managerPassword`: The master password for accessing the manager interface
-- `music`: Enable/disable game music
+| Option | Mô tả |
+|--------|-------|
+| `managerPassword` | Mật khẩu để truy cập giao diện quản lý |
+| `music` | Bật/tắt nhạc trong game |
 
 ### 2. Quiz Configuration (`config/quizz/*.json`)
 
-Create your quiz files in the `config/quizz/` directory. You can have multiple quiz files and select which one to use when starting a game.
+Tạo các file quiz trong thư mục `config/quizz/`. Bạn có thể có nhiều file quiz và chọn quiz khi bắt đầu game.
 
-Example quiz configuration (`config/quizz/example.json`):
+Ví dụ (`config/quizz/example.json`):
 
 ```json
 {
   "subject": "Example Quiz",
   "questions": [
     {
-      "question": "What is the correct answer?",
-      "answers": ["No", "Yes", "No", "No"],
-      "image": "https://images.unsplash.com/....",
+      "question": "Đâu là câu trả lời đúng?",
+      "answers": ["Không", "Đúng", "Không", "Không"],
+      "image": "https://example.com/image.jpg",
       "solution": 1,
       "cooldown": 5,
       "time": 15
@@ -142,31 +114,47 @@ Example quiz configuration (`config/quizz/example.json`):
 }
 ```
 
-Quiz Options:
+| Option | Mô tả |
+|--------|-------|
+| `subject` | Tiêu đề/chủ đề của quiz |
+| `questions` | Mảng các câu hỏi |
+| `question` | Nội dung câu hỏi |
+| `answers` | Mảng các đáp án (2-4 lựa chọn) |
+| `image` | URL hình ảnh (tùy chọn) |
+| `solution` | Index của đáp án đúng (bắt đầu từ 0) |
+| `cooldown` | Thời gian chờ trước khi hiện câu hỏi (giây) |
+| `time` | Thời gian trả lời (giây) |
 
-- `subject`: Title/topic of the quiz
-- `questions`: Array of question objects containing:
-  - `question`: The question text
-  - `answers`: Array of possible answers (2-4 options)
-  - `image`: Optional URL for question image
-  - `solution`: Index of correct answer (0-based)
-  - `cooldown`: Time in seconds before showing the question
-  - `time`: Time in seconds allowed to answer
+## 🔌 Socket Events
 
-## 🎮 How to Play
+### Client → Server
 
-1. Access the manager interface at http://localhost:3000/manager
-2. Enter the manager password (defined in quiz config)
-3. Share the game URL (http://localhost:3000) and room code with participants
-4. Wait for players to join
-5. Click the start button to begin the game
+| Event | Payload | Mô tả |
+|-------|---------|-------|
+| `manager:auth` | `password: string` | Xác thực manager |
+| `manager:reconnect` | `{ gameId: string }` | Kết nối lại cho manager |
+| `game:create` | `quizzId: string` | Tạo game mới |
+| `player:join` | `inviteCode: string` | Player tham gia game |
+| `player:reconnect` | `{ gameId: string }` | Player kết nối lại |
 
-## 📝 Contributing
+### Server → Client
 
-1. Fork the repository
-2. Create a new branch (e.g., `feat/my-feature`)
-3. Make your changes
-4. Create a pull request
-5. Wait for review and merge
+| Event | Payload | Mô tả |
+|-------|---------|-------|
+| `manager:quizzList` | `QuizzWithId[]` | Danh sách quiz |
+| `manager:errorMessage` | `string` | Thông báo lỗi cho manager |
+| `game:errorMessage` | `string` | Thông báo lỗi chung |
+| `game:reset` | `string` | Reset game (game không tồn tại) |
 
-For bug reports or feature requests, please [create an issue](https://github.com/huunhutqn/Cahoot/issues).
+## 🛠️ Scripts
+
+| Script | Mô tả |
+|--------|-------|
+| `npm run dev` | Chạy development với hot-reload |
+| `npm run build` | Build production |
+| `npm start` | Chạy production build |
+| `npm run lint` | Kiểm tra linting |
+
+## 📝 License
+
+ISC

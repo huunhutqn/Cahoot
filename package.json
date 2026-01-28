@@ -1,8 +1,29 @@
 {
-  "name": "cahoot",
-  "private": true,
+  "name": "cahoot-socket",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "echo 'Use: cd packages/web && npm run dev OR cd packages/socket && npm run dev'",
-    "install:all": "cd packages/web && npm install && cd ../socket && npm install"
+    "dev": "tsx watch src/index.ts",
+    "build": "node esbuild.config.js",
+    "start": "node dist/index.cjs",
+    "lint": "eslint"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@t3-oss/env-core": "^0.13.8",
+    "dayjs": "^1.11.19",
+    "socket.io": "^4.8.1",
+    "uuid": "^13.0.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^24.10.4",
+    "esbuild": "^0.27.1",
+    "eslint": "^9.39.2",
+    "globals": "^16.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.49.0"
   }
 }

@@ -7,7 +7,7 @@ const inContainerPath = process.env.CONFIG_PATH;
 const getPath = (path: string = "") =>
   inContainerPath
     ? resolve(inContainerPath, path)
-    : resolve(process.cwd(), "../../config", path);
+    : resolve(process.cwd(), "config", path);
 
 class Config {
   static init() {
