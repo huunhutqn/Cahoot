@@ -163,7 +163,9 @@ Ví dụ (`config/quizz/example.json`):
 
 ## 🔌 Socket Events
 
-### Client → Server
+### Game Events
+
+#### Client → Server
 
 | Event | Payload | Mô tả |
 |-------|---------|-------|
@@ -173,7 +175,7 @@ Ví dụ (`config/quizz/example.json`):
 | `player:join` | `inviteCode: string` | Player tham gia game |
 | `player:reconnect` | `{ gameId: string }` | Player kết nối lại |
 
-### Server → Client
+#### Server → Client
 
 | Event | Payload | Mô tả |
 |-------|---------|-------|
@@ -181,6 +183,106 @@ Ví dụ (`config/quizz/example.json`):
 | `manager:errorMessage` | `string` | Thông báo lỗi cho manager |
 | `game:errorMessage` | `string` | Thông báo lỗi chung |
 | `game:reset` | `string` | Reset game (game không tồn tại) |
+
+### Quiz Management Events (CRUD)
+
+#### Client → Server
+
+| Event | Payload | Mô tả |
+|-------|---------|-------|
+| `quizz:getAll` | - | Lấy danh sách tất cả quiz |
+| `quizz:getById` | `string` (id) | Lấy một quiz theo ID |
+| `quizz:create` | `{ id: string, data: Quizz }` | Tạo quiz mới |
+| `quizz:update` | `{ id: string, data: Quizz }` | Cập nhật quiz |
+| `quizz:delete` | `{ id: string }` | Xóa quiz |
+
+#### Server → Client
+
+| Event | Payload | Mô tả |
+|-------|---------|-------|
+| `quizz:list` | `QuizzWithId[]` | Danh sách tất cả quiz |
+| `quizz:single` | `QuizzWithId` | Chi tiết một quiz |
+| `quizz:created` | `QuizzWithId` | Quiz vừa tạo |
+| `quizz:updated` | `QuizzWithId` hoặc broadcast | Quiz vừa cập nhật |
+| `quizz:deleted` | `{ id: string }` | ID quiz vừa xóa |
+| `quizz:error` | `string` | Thông báo lỗi |
+
+#### Quiz Data Structure
+
+```typescript
+{
+  id: string,  // Quiz ID (tên file không có .json)
+  data: {
+    subject: string,  // Tiêu đề quiz
+    questions: [
+      {
+        question: string,      // Câu hỏi
+        answers: string[],     // Mảng đáp án (2-4 items)
+        image?: string,        // URL hình ảnh (optional)
+        solution: number,      // Index đáp án đúng (0-based)
+        cooldown: number,      // Thời gian chờ (giây)
+        time: number          // Thời gian trả lời (giây)
+      }
+    ]
+  }
+}
+```
+
+#### Ví dụ sử dụng Quiz CRUD
+
+**1. Lấy tất cả quiz:**
+```javascript
+socket.emit('quizz:getAll');
+socket.on('quizz:list', (quizzes) => {
+  console.log(quizzes);
+});
+```
+
+**2. Tạo quiz mới:**
+```javascript
+socket.emit('quizz:create', {
+  id: 'my-quiz',
+  data: {
+    subject: 'My Quiz',
+    questions: [
+      {
+        question: 'What is 2+2?',
+        answers: ['3', '4', '5', '6'],
+        solution: 1,
+        cooldown: 3,
+        time: 10
+      }
+    ]
+  }
+});
+
+socket.on('quizz:created', (quiz) => {
+  console.log('Created:', quiz);
+});
+
+socket.on('quizz:error', (error) => {
+  console.error(error);
+});
+```
+
+**3. Cập nhật quiz:**
+```javascript
+socket.emit('quizz:update', {
+  id: 'my-quiz',
+  data: {
+    subject: 'Updated Quiz',
+    questions: [...]
+  }
+});
+```
+
+**4. Xóa quiz:**
+```javascript
+socket.emit('quizz:delete', { id: 'my-quiz' });
+socket.on('quizz:deleted', (result) => {
+  console.log('Deleted:', result.id);
+});
+```
 
 ## 🛠️ Scripts
 

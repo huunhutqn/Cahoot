@@ -1,8 +1,15 @@
 import { Server } from "@/common/types/game/socket";
 import { inviteCodeValidator } from "@/common/validators/auth";
+import {
+  createQuizzValidator,
+  deleteQuizzValidator,
+  quizzIdValidator,
+  updateQuizzValidator,
+} from "@/common/validators/quizz";
 import env from "@cahoot/socket/env";
 import Config from "@cahoot/socket/services/config";
 import Game from "@cahoot/socket/services/game";
+import QuizzService from "@cahoot/socket/services/quizz";
 import Registry from "@cahoot/socket/services/registry";
 import { withGame } from "@cahoot/socket/utils/game";
 import { Server as ServerIO } from "socket.io";
@@ -133,6 +140,146 @@ io.on("connection", (socket) => {
   socket.on("manager:showLeaderboard", ({ gameId }) =>
     withGame(gameId, socket, (game) => game.showLeaderboard()),
   );
+
+  // ==================== QUIZ CRUD OPERATIONS ====================
+
+  // Get all quizzes
+  socket.on("quizz:getAll", async () => {
+    try {
+      const quizzes = await QuizzService.getAll();
+      socket.emit("quizz:list", quizzes);
+    } catch (error) {
+      console.error("Failed to get quizzes:", error);
+      socket.emit("quizz:error", "Failed to fetch quizzes");
+    }
+  });
+
+  // Get a single quiz by ID
+  socket.on("quizz:getById", async (id) => {
+    const result = quizzIdValidator.safeParse(id);
+
+    if (result.error) {
+      socket.emit("quizz:error", result.error.issues[0].message);
+      return;
+    }
+
+    try {
+      const quiz = await QuizzService.getById(id);
+
+      if (!quiz) {
+        socket.emit("quizz:error", "Quiz not found");
+        return;
+      }
+
+      socket.emit("quizz:single", quiz);
+    } catch (error) {
+      console.error(`Failed to get quiz ${id}:`, error);
+      socket.emit("quizz:error", "Failed to fetch quiz");
+    }
+  });
+
+  // Create a new quiz
+  socket.on("quizz:create", async (payload) => {
+    const result = createQuizzValidator.safeParse(payload);
+
+    if (result.error) {
+      socket.emit("quizz:error", result.error.issues[0].message);
+      return;
+    }
+
+    try {
+      const { id, data } = result.data;
+      const createResult = await QuizzService.create(id, data);
+
+      if (!createResult.success) {
+        socket.emit(
+          "quizz:error",
+          createResult.error || "Failed to create quiz",
+        );
+        return;
+      }
+
+      const newQuiz = await QuizzService.getById(id);
+      if (!newQuiz) {
+        socket.emit("quizz:error", "Failed to retrieve created quiz");
+        return;
+      }
+      socket.emit("quizz:created", newQuiz);
+
+      // Broadcast to all connected clients
+      io.emit("quizz:updated");
+    } catch (error) {
+      console.error("Failed to create quiz:", error);
+      socket.emit("quizz:error", "Failed to create quiz");
+    }
+  });
+
+  // Update an existing quiz
+  socket.on("quizz:update", async (payload) => {
+    const result = updateQuizzValidator.safeParse(payload);
+
+    if (result.error) {
+      socket.emit("quizz:error", result.error.issues[0].message);
+      return;
+    }
+
+    try {
+      const { id, data } = result.data;
+      const updateResult = await QuizzService.update(id, data);
+
+      if (!updateResult.success) {
+        socket.emit(
+          "quizz:error",
+          updateResult.error || "Failed to update quiz",
+        );
+        return;
+      }
+
+      const updatedQuiz = await QuizzService.getById(id);
+      if (updatedQuiz) {
+        socket.emit("quizz:updated", updatedQuiz);
+      }
+
+      // Broadcast to all connected clients
+      io.emit("quizz:updated");
+    } catch (error) {
+      console.error("Failed to update quiz:", error);
+      socket.emit("quizz:error", "Failed to update quiz");
+    }
+  });
+
+  // Delete a quiz
+  socket.on("quizz:delete", async (payload) => {
+    const result = deleteQuizzValidator.safeParse(payload);
+
+    if (result.error) {
+      socket.emit("quizz:error", result.error.issues[0].message);
+      return;
+    }
+
+    try {
+      const { id } = result.data;
+      const deleteResult = await QuizzService.delete(id);
+
+      if (!deleteResult.success) {
+        socket.emit(
+          "quizz:error",
+          deleteResult.error || "Failed to delete quiz",
+        );
+        return;
+      }
+
+      socket.emit("quizz:deleted", { id });
+
+      // Broadcast to all connected clients
+      io.emit("quizz:updated");
+    } catch (error) {
+      console.error("Failed to delete quiz:", error);
+      socket.emit("quizz:error", "Failed to delete quiz");
+    }
+  });
+
+  // ==================== END QUIZ CRUD OPERATIONS ====================
 
   socket.on("disconnect", () => {
     console.log(`A user disconnected : ${socket.id}`);

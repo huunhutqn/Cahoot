@@ -1,5 +1,5 @@
 import { Server as ServerIO, Socket as SocketIO } from "socket.io";
-import { GameUpdateQuestion, Player, QuizzWithId } from ".";
+import { GameUpdateQuestion, Player, Quizz, QuizzWithId } from ".";
 import { Status, StatusDataMap } from "./status";
 
 export type Server = ServerIO<ClientToServerEvents, ServerToClientEvents>;
@@ -64,6 +64,14 @@ export interface ServerToClientEvents {
   "manager:removePlayer": (_playerId: string) => void;
   "manager:errorMessage": (_message: string) => void;
   "manager:playerKicked": (_playerId: string) => void;
+
+  // Quiz management events
+  "quizz:list": (_quizzes: QuizzWithId[]) => void;
+  "quizz:single": (_quiz: QuizzWithId) => void;
+  "quizz:created": (_quiz: QuizzWithId) => void;
+  "quizz:updated": (_quiz?: QuizzWithId) => void;
+  "quizz:deleted": (_data: { id: string }) => void;
+  "quizz:error": (_message: string) => void;
 }
 
 export interface ClientToServerEvents {
@@ -89,6 +97,13 @@ export interface ClientToServerEvents {
   "player:selectedAnswer": (
     _message: MessageWithoutStatus<{ answerKey: number }>,
   ) => void;
+
+  // Quiz management actions
+  "quizz:getAll": () => void;
+  "quizz:getById": (_id: string) => void;
+  "quizz:create": (_payload: { id: string; data: Quizz }) => void;
+  "quizz:update": (_payload: { id: string; data: Quizz }) => void;
+  "quizz:delete": (_payload: { id: string }) => void;
 
   // Common
   disconnect: () => void;
