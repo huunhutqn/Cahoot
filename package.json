@@ -1,13 +1,16 @@
 {
   "name": "rahoot",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "dotenv -e .env -- pnpm -r --parallel dev",
-    "dev:web": "dotenv -e .env -- pnpm --filter web dev",
-    "dev:socket": "dotenv -e .env -- pnpm --filter socket dev",
-    "build": "pnpm -r run build",
-    "start": "pnpm -r --parallel run start",
-    "clean": "pnpm -r exec rm -rf dist node_modules",
-    "lint": "pnpm -r run lint"
+    "dev": "dotenv -e .env -- npm run dev --workspaces --if-present",
+    "dev:web": "dotenv -e .env -- npm run dev --workspace=web",
+    "dev:socket": "dotenv -e .env -- npm run dev --workspace=socket",
+    "build": "npm run build --workspaces --if-present",
+    "start": "npm run start --workspaces --if-present",
+    "clean": "npm exec --workspaces -- rm -rf dist node_modules",
+    "lint": "npm run lint --workspaces --if-present"
   },
   "devDependencies": {
     "dotenv-cli": "^11.0.0",

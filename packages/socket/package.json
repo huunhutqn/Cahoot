@@ -10,7 +10,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@rahoot/common": "workspace:*",
+    "@rahoot/common": "*",
     "@t3-oss/env-core": "^0.13.8",
     "dayjs": "^1.11.19",
     "socket.io": "^4.8.1",

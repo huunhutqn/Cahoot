@@ -8,8 +8,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@rahoot/common": "workspace:*",
-    "@rahoot/socket": "workspace:*",
+    "@rahoot/common": "*",
+    "@rahoot/socket": "*",
     "@t3-oss/env-nextjs": "^0.13.8",
     "clsx": "^2.1.1",
     "ky": "^1.14.1",
