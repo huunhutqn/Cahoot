@@ -1,0 +1,97 @@
+{
+  "subject": "F1.STI Vibe Coding - Cahoot",
+  "questions": [
+    {
+      "question": "FPT hợp tác với đối tác quốc tế nào để phát triển AI",
+      "answers": ["Google", "Microsoft", "Amazon", "Samsung"],
+      "solution": 1,
+      "cooldown": 5,
+      "time": 10
+    },
+    {
+      "question": "Maya không hỗ trợ loại đơn nào sau đây?",
+      "answers": ["Đơn nghỉ việc", "Đơn nghỉ phép", "Đơn WFH", "Đơn đi muộn"],
+      "solution": 0,
+      "cooldown": 5,
+      "time": 10
+    },
+    {
+      "question": "Công cụ nào được phép sử dụng tại F1.STI",
+      "answers": ["ChatGPT", "PrivatedGPT", "PrivatedChatGPT", "PrivateGPT"],
+      "solution": 3,
+      "cooldown": 5,
+      "time": 10
+    },
+    {
+      "question": "Đại hội Đảng toàn quốc lần thứ XIV dự kiến diễn ra trong",
+      "answers": [
+        "20/01/2026 đến ngày 26/01/2026",
+        "19/01/2026 đến ngày 25/01/2026",
+        "18/01/2026 đến ngày 24/01/2026",
+        "17/01/2026 đến ngày 23/01/2026"
+      ],
+      "solution": 1,
+      "cooldown": 5,
+      "time": 17
+    },
+    {
+      "question": "Nơi hẹp nhất theo chiều Tây - Đông của nước ta thuộc tỉnh nào?",
+      "answers": ["Quảng Bình", "Quảng Trị", "Khánh Hòa", "Ninh Thuận"],
+      "solution": 0,
+      "cooldown": 5,
+      "time": 13
+    },
+    {
+      "question": "Theo quy ước, Nhật Bản nằm ở múi giờ thứ mấy",
+      "answers": ["UTC+7", "UTC+5", "UTC+9", "UTC+10"],
+      "image": "https://cahoot.nhut95.me/public/timezone.jpg",
+      "solution": 2,
+      "cooldown": 5,
+      "time": 11
+    },
+    {
+      "question": "Hà Nội từng có tên là Đông Đô, Cần Thơ có tên là Tây Đô còn thành phố nào là Trung Đô",
+      "answers": ["Tp Vinh", "Tp Huế", "Tp Hội An", "Tp Đồng Hới"],
+      "solution": 0,
+      "cooldown": 5,
+      "time": 15
+    },
+    {
+      "question": "Mức giảm trừ gia cảnh cá nhân và người thân theo luật thuế mới năm 2026",
+      "answers": [
+        "Bản thân 15tr000, người phụ thuộc 6tr400",
+        "Bản thân 15tr000, người phụ thuộc 6tr200",
+        "Bản thân 15tr500, người phụ thuộc 6tr200",
+        "Bản thân 11tr000, người phụ thuộc 4tr400"
+      ],
+      "solution": 2,
+      "cooldown": 5,
+      "time": 17
+    },
+    {
+      "question": "Địa điểm nào được in ở mặt sau tờ tiền polymer 50.000 đồng của Việt Nam?",
+      "answers": [
+        "Chợ Bến Thành",
+        "Vịnh Hạ Long",
+        "Nghênh Lương Đình và Phu Văn Lâu",
+        "Văn Miếu Quốc Tử Giám"
+      ],
+      "image": "https://upload.wikimedia.org/wikipedia/vi/9/9f/500000_polymer.jpg",
+      "solution": 2,
+      "cooldown": 5,
+      "time": 12
+    },
+    {
+      "question": "FPT là viết tắt của cụm từ nào sau đây?",
+      "answers": [
+        "Future Programming Technology",
+        "Food Processing Technology",
+        "Corporation for Financing and Promoting Technology",
+        "Fast Processing Technology"
+      ],
+      "solution": 2,
+      "cooldown": 5,
+      "time": 12
+    }
+  ]
+}

@@ -511,6 +511,10 @@ class Game {
         top: this.leaderboard.slice(0, 3),
       });
 
+      // Mark game as empty for cleanup after game finishes
+      registry.markGameAsEmpty(this);
+      console.log(`Game ${this.gameId} finished and marked for cleanup`);
+
       return;
     }
 

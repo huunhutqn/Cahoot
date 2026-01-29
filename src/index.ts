@@ -24,13 +24,35 @@ const httpServer = createServer(app);
 // Initialize Socket.IO with Express
 const io: Server = new ServerIO(httpServer, {
   cors: {
-    origin: [env.WEB_ORIGIN],
+    origin: env.WEB_ORIGIN || "*",
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
 // Express middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// CORS middleware for Express routes
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin === env.WEB_ORIGIN || !env.WEB_ORIGIN) {
+    res.setHeader("Access-Control-Allow-Origin", origin || "*");
+  }
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS",
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // Health check endpoint
 app.get("/", (req, res) => {
@@ -55,6 +77,25 @@ app.get("/health", (req, res) => {
 
 // REST API Routes
 app.use("/api/quizz", quizzRouter);
+
+// Error handling middleware
+app.use(
+  (
+    err: Error,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ) => {
+    console.error("Express error:", err);
+    res.status(500).json({
+      error: "Internal server error",
+      message:
+        process.env.NODE_ENV === "production"
+          ? "Something went wrong"
+          : err.message,
+    });
+  },
+);
 
 // Initialize config
 Config.init();
