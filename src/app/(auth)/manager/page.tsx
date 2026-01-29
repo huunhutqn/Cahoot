@@ -24,7 +24,7 @@ const Manager = () => {
 
   useEvent("manager:gameCreated", ({ gameId, inviteCode }) => {
     setGameId(gameId)
-    setStatus(STATUS.SHOW_ROOM, { text: "Waiting for the players", inviteCode })
+    setStatus(STATUS.SHOW_ROOM, { text: "Đang đợi anh em vô chơi", inviteCode })
     router.push(`/game/manager/${gameId}`)
   })
 

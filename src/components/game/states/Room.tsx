@@ -4,6 +4,8 @@ import { Player } from "@/common/types/game"
 import { ManagerStatusDataMap } from "@/common/types/game/status"
 import { useEvent, useSocket } from "@cahoot/web/contexts/socketProvider"
 import { useManagerStore } from "@cahoot/web/stores/manager"
+import { getAvatarForUsername, getAvatarUrl } from "@cahoot/web/utils/avatar"
+import Image from "next/image"
 import { useState } from "react"
 
 type Props = {
@@ -56,7 +58,7 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
 
       <div className="mb-6 flex items-center justify-center rounded-full bg-black/40 px-6 py-3">
         <span className="text-2xl font-bold text-white drop-shadow-md">
-          Players Joined: {totalPlayers}
+          Quân số: {totalPlayers}
         </span>
       </div>
 
@@ -64,9 +66,16 @@ const Room = ({ data: { text, inviteCode } }: Props) => {
         {playerList.map((player) => (
           <div
             key={player.id}
-            className="shadow-inset bg-primary rounded-md px-4 py-3 font-bold text-white"
+            className="shadow-inset bg-primary flex items-center gap-2 rounded-md px-4 py-3 font-bold text-white"
             onClick={handleKick(player.id)}
           >
+            <Image
+              src={getAvatarUrl(getAvatarForUsername(player.username))}
+              alt="avatar"
+              width={32}
+              height={32}
+              className="rounded-full"
+            />
             <span className="cursor-pointer text-xl drop-shadow-md hover:line-through">
               {player.username}
             </span>

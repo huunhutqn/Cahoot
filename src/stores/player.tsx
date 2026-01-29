@@ -1,10 +1,12 @@
 import { StatusDataMap } from "@/common/types/game/status"
+import { getRandomAvatar } from "@cahoot/web/utils/avatar"
 import { createStatus, Status } from "@cahoot/web/utils/createStatus"
 import { create } from "zustand"
 
 type PlayerState = {
   username?: string
   points?: number
+  avatar?: string
 }
 
 type PlayerStore<T> = {
@@ -38,7 +40,7 @@ export const usePlayerStore = create<PlayerStore<StatusDataMap>>((set) => ({
   setPlayer: (player: PlayerState) => set({ player }),
   login: (username) =>
     set((state) => ({
-      player: { ...state.player, username },
+      player: { ...state.player, username, avatar: getRandomAvatar() },
     })),
 
   join: (gameId) => {

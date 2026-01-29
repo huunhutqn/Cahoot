@@ -2,11 +2,14 @@
 
 import { Status } from "@/common/types/game/status"
 import background from "@cahoot/web/assets/background.webp"
+import logoBlackwings from "@cahoot/web/assets/blackwings_2.png"
+import logoVibecoding from "@cahoot/web/assets/vibecoding_3.png"
 import Button from "@cahoot/web/components/Button"
 import Loader from "@cahoot/web/components/Loader"
 import { useEvent, useSocket } from "@cahoot/web/contexts/socketProvider"
 import { usePlayerStore } from "@cahoot/web/stores/player"
 import { useQuestionStore } from "@cahoot/web/stores/question"
+import { getAvatarUrl } from "@cahoot/web/utils/avatar"
 import { MANAGER_SKIP_BTN } from "@cahoot/web/utils/constants"
 import clsx from "clsx"
 import Image from "next/image"
@@ -51,6 +54,24 @@ const GameWrapper = ({ children, statusName, onNext, manager }: Props) => {
         />
       </div>
 
+      {/* Sponsor Logos */}
+      <div className="pointer-events-none absolute top-2 right-0 left-0 z-50 flex items-center justify-center gap-2 md:gap-4">
+        <Image
+          src={logoVibecoding}
+          alt="Vibecoding"
+          height={80}
+          width={200}
+          className="h-[50px] w-auto object-contain md:h-[80px]"
+        />
+        <Image
+          src={logoBlackwings}
+          alt="Blackwings"
+          height={80}
+          width={200}
+          className="h-[50px] w-auto object-contain md:h-[80px]"
+        />
+      </div>
+
       {!isConnected && !statusName ? (
         <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
           <Loader />
@@ -81,7 +102,18 @@ const GameWrapper = ({ children, statusName, onNext, manager }: Props) => {
 
           {!manager && (
             <div className="z-50 flex items-center justify-between bg-white px-4 py-2 text-lg font-bold text-white">
-              <p className="text-gray-800">{player?.username}</p>
+              <div className="flex items-center gap-2">
+                {player?.avatar && (
+                  <Image
+                    src={getAvatarUrl(player.avatar)}
+                    alt="avatar"
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                  />
+                )}
+                <p className="text-gray-800">{player?.username}</p>
+              </div>
               <div className="rounded-sm bg-gray-800 px-3 py-1 text-lg">
                 {player?.points}
               </div>

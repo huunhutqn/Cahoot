@@ -2,13 +2,15 @@
 
 import { ManagerStatusDataMap } from "@/common/types/game/status"
 import useScreenSize from "@cahoot/web/hooks/useScreenSize"
+import { getAvatarForUsername, getAvatarUrl } from "@cahoot/web/utils/avatar"
 import {
-    SFX_PODIUM_FIRST,
-    SFX_PODIUM_SECOND,
-    SFX_PODIUM_THREE,
-    SFX_SNEAR_ROOL,
+  SFX_PODIUM_FIRST,
+  SFX_PODIUM_SECOND,
+  SFX_PODIUM_THREE,
+  SFX_SNEAR_ROOL,
 } from "@cahoot/web/utils/constants"
 import clsx from "clsx"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import ReactConfetti from "react-confetti"
 import useSound from "use-sound"
@@ -117,12 +119,19 @@ const Podium = ({ data: { subject, top } }: Props) => {
             >
               <p
                 className={clsx(
-                  "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white drop-shadow-lg md:text-4xl",
+                  "flex items-center gap-2 overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white drop-shadow-lg md:text-4xl",
                   {
                     "anim-balanced": apparition >= 4,
                   },
                 )}
               >
+                <Image
+                  src={getAvatarUrl(getAvatarForUsername(top[1].username))}
+                  alt="avatar"
+                  width={48}
+                  height={48}
+                  className="rounded-full border-2 border-white shadow-lg"
+                />
                 {top[1].username}
               </p>
               <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-md pt-6 text-center shadow-2xl">
@@ -149,10 +158,17 @@ const Podium = ({ data: { subject, top } }: Props) => {
           >
             <p
               className={clsx(
-                "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white opacity-0 drop-shadow-lg md:text-4xl",
+                "flex items-center gap-2 overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white opacity-0 drop-shadow-lg md:text-4xl",
                 { "anim-balanced opacity-100": apparition >= 4 },
               )}
             >
+              <Image
+                src={getAvatarUrl(getAvatarForUsername(top[0].username))}
+                alt="avatar"
+                width={56}
+                height={56}
+                className="rounded-full border-2 border-amber-400 shadow-lg"
+              />
               {top[0].username}
             </p>
             <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-md pt-6 text-center shadow-2xl">
@@ -176,12 +192,19 @@ const Podium = ({ data: { subject, top } }: Props) => {
             >
               <p
                 className={clsx(
-                  "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white drop-shadow-lg md:text-4xl",
+                  "flex items-center gap-2 overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white drop-shadow-lg md:text-4xl",
                   {
                     "anim-balanced": apparition >= 4,
                   },
                 )}
               >
+                <Image
+                  src={getAvatarUrl(getAvatarForUsername(top[2].username))}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full border-2 border-amber-700 shadow-lg"
+                />
                 {top[2].username}
               </p>
               <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-md pt-6 text-center shadow-2xl">

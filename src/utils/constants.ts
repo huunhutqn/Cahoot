@@ -27,7 +27,7 @@ export const ANSWERS_ICONS = [Triangle, Rhombus, Circle, Square]
 export const GAME_STATES = {
   status: {
     name: STATUS.WAIT,
-    data: { text: "Waiting for the players" },
+    data: { text: "Đang đợi anh em vô chơi" },
   },
   question: {
     current: 1,
@@ -63,14 +63,14 @@ export const SFX_PODIUM_FIRST = "/sounds/first.mp3"
 export const SFX_SNEAR_ROOL = "/sounds/snearRoll.mp3"
 
 export const MANAGER_SKIP_BTN = {
-  [STATUS.SHOW_ROOM]: "Start Game",
+  [STATUS.SHOW_ROOM]: "Chơiii!!",
   [STATUS.SHOW_START]: null,
   [STATUS.SHOW_PREPARED]: null,
   [STATUS.SHOW_QUESTION]: null,
-  [STATUS.SELECT_ANSWER]: "Skip",
+  [STATUS.SELECT_ANSWER]: "Dừng",
   [STATUS.SHOW_RESULT]: null,
-  [STATUS.SHOW_RESPONSES]: "Next",
-  [STATUS.SHOW_LEADERBOARD]: "Next",
+  [STATUS.SHOW_RESPONSES]: "Tiếp",
+  [STATUS.SHOW_LEADERBOARD]: "Tiếp",
   [STATUS.FINISHED]: null,
   [STATUS.WAIT]: null,
 }

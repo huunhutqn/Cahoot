@@ -1,5 +1,7 @@
 import { ManagerStatusDataMap } from "@/common/types/game/status"
+import { getAvatarForUsername, getAvatarUrl } from "@cahoot/web/utils/avatar"
 import { AnimatePresence, motion, useSpring, useTransform } from "motion/react"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 
 type Props = {
@@ -45,7 +47,7 @@ const Leaderboard = ({ data: { oldLeaderboard, leaderboard } }: Props) => {
   return (
     <section className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center px-2">
       <h2 className="mb-6 text-5xl font-bold text-white drop-shadow-md">
-        Leaderboard
+        Bảng điểm
       </h2>
       <div className="flex w-full flex-col gap-2">
         <AnimatePresence mode="popLayout">
@@ -70,9 +72,18 @@ const Leaderboard = ({ data: { oldLeaderboard, leaderboard } }: Props) => {
                   damping: 25,
                 },
               }}
-              className="bg-primary flex w-full justify-between rounded-md p-3 text-2xl font-bold text-white"
+              className="bg-primary flex w-full items-center justify-between rounded-md p-3 text-2xl font-bold text-white"
             >
-              <span className="drop-shadow-md">{username}</span>
+              <div className="flex items-center gap-3">
+                <Image
+                  src={getAvatarUrl(getAvatarForUsername(username))}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <span className="drop-shadow-md">{username}</span>
+              </div>
               {isAnimating ? (
                 <AnimatedPoints
                   from={oldLeaderboard.find((u) => u.id === id)?.points || 0}

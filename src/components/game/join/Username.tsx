@@ -31,7 +31,7 @@ const Username = () => {
   }
 
   useEvent("game:successJoin", (gameId) => {
-    setStatus(STATUS.WAIT, { text: "Waiting for the players" })
+    setStatus(STATUS.WAIT, { text: "Đang đợi anh em vô chơi" })
     login(username)
 
     router.replace(`/game/${gameId}`)
