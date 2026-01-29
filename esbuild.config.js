@@ -10,6 +10,7 @@ const config = {
   format: "esm",
   outfile: "dist/index.js",
   sourcemap: true,
+  packages: "external", // Don't bundle node_modules
   define: {
     "process.env.NODE_ENV": '"production"',
   },
@@ -17,6 +18,9 @@ const config = {
     "@": path.resolve("./src"),
     "@/common": path.resolve("./src/common"),
     "@cahoot/socket": path.resolve("./src"),
+  },
+  banner: {
+    js: "import { createRequire } from 'module';const require = createRequire(import.meta.url);",
   },
 };
 
